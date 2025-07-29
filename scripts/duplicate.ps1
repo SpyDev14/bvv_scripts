@@ -1,18 +1,18 @@
-# Получаем текущий путь
+# пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 $currentPath = Get-Location -PSProvider FileSystem
 $venvScriptPath = ".\.venv\Scripts\Activate.ps1"
 
 
-# можно добавить к avenv в if: ; Write-Host '.venv activated' -ForegroundColor Green
-# Формируем команды для нового терминала
+# пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ avenv пїЅ if: ; Write-Host '.venv activated' -ForegroundColor Green
+# пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 $commands = @(
-    "cd '$currentPath'",                                                 # Переходим в текущую папку
-    "if (Test-Path $venvScriptPath -PathType Leaf) { avenv }", # Если есть avenv — активируем venv
-    "Write-Host 'New Terminal in: $currentPath' -ForegroundColor Green"  # Выводим инфо
+    "cd '$currentPath'",                                                 # пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    "if (Test-Path $venvScriptPath -PathType Leaf) { avenv }", # пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ avenv пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ venv
+    "Write-Host 'New Terminal in: $currentPath' -ForegroundColor Green"  # пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 ) -join "; "
 
-# Открываем новое окно Windows Terminal и выполняем команды
+# пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ Windows Terminal пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 Start-Process powershell -ArgumentList @(
-    "-NoExit",                      # Не закрывать после выполнения
-    "-Command", $commands           # Выполняем наши команды
+    "-NoExit",                      # пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    "-Command", $commands           # пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 )

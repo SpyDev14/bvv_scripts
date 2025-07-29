@@ -1,29 +1,33 @@
 param(
-    [string]$path
+	[string]$path
 )
-    
-# Case 2: Если ввод "project" и есть переменная $env:CURRENT_PROJECT
+	
+# "project" и есть переменная $env:CURRENT_PROJECT
 if ($path -eq "project" -and $env:CURRENT_PROJECT) {
-    Set-Location $env:CURRENT_PROJECT
-    Write-Host "Перешел в папку проекта: $($env:CURRENT_PROJECT)"
-    Write-Host ""
-    return
+	Set-Location $env:CURRENT_PROJECT
+	Write-Host "Перешел в папку проекта: $($env:CURRENT_PROJECT)" -ForegroundColor DarkCyan
 }
 
-# Case 3: Если ввод "scripts" - перейти в родительскую папку скрипта
-if ($path -eq "scripts") {
-    $scriptParent = Split-Path -Parent $MyInvocation.MyCommand.Path
-    Set-Location $scriptParent
-    Write-Host "Добро пожаловать в скрипты! ($scriptParent)" -ForegroundColor DarkCyan
-    Write-Host ""
-    return
+# "scripts" - перейти в родительскую папку скрипта
+elseif ($path -eq "scripts") {
+	$scriptParent = Split-Path -Parent $MyInvocation.MyCommand.Path
+	Set-Location $scriptParent
+	Write-Host "Добро пожаловать в скрипты! ($scriptParent)" -ForegroundColor DarkCyan
 }
 
-# Case 1: Пробуем перейти по введённому пути
-try {
-    Set-Location $path -ErrorAction Stop
-} catch {
-    Write-Host "Ошибка, пути '$path' не существует." -ForegroundColor Red
+# "local" - открыть http://127.0.0.1:8000
+elseif ($path -eq "local") {
+	Start-Process "http://127.0.0.1:8000"
+}
+
+# Пустой ввод
+elseif ($path -eq "") {
+	Write-Host "Введите название метки" -ForegroundColor Yellow
+}
+
+# Не известная метка
+else {
+	Write-Host "Метки '$path' не существует." -ForegroundColor Red
 }
 
 Write-Host ""

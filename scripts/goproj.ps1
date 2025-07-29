@@ -1,1 +1,0 @@
-cd $env:CURRENT_PROJECT
