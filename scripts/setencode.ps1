@@ -1,27 +1,33 @@
 param (
-    [string]$EncodeName
+	[string]$EncodeName
 )
+$encodes = @{
+	"utf" = 	@{code = 65001; name = "Unicode"};
+	"win" = 	@{code = 1251; 	name = "Windows 1251"};
+	"legacy" = 	@{code = 866; 	name = "CP866"};
+}
 
-if ($EncodeName -eq "utf") {
-	Write-Host "Установлена кодировка Unicode" -ForegroundColor Green
-	chcp 65001
+$avaiableCodeSheetsMSG = "доступны utf (65001), win (1251) & legacy (cp866)"
+if ($EncodeName -eq "") {
+	Write-Host "Укажите кодировку, $avaiableCodeSheetsMSG" -ForegroundColor Red
+	exit 1
 }
-elseif ($EncodeName -eq "win") {
-	Write-Host "Установлена кодировка Windows 1251" -ForegroundColor Green
-	chcp 1251
-}
-elseif ($EncodeName -eq "1251") {
-	Write-Host "Установлена кодировка Windows 1251" -ForegroundColor Green
-	chcp 1251
-}
-elseif ($EncodeName -eq "old") {
-	Write-Host "Установлена кодировка CP866" -ForegroundColor Green
-	chcp 866
-}
-elseif ($EncodeName -eq "866") {
-	Write-Host "Установлена кодировка CP866" -ForegroundColor Green
-	chcp 866
+
+if ($EncodeName -in $encodes.Keys) {
+	$codeInfo = $encodes[$EncodeName]
+	chcp $($codeInfo.code) *> $null
+	Write-Host "Установлена кодировка $($codeInfo.name)" -ForegroundColor Green
+	Write-Host ""
 }
 else {
-	Write-Host "Неизвестная кодировка, есть utf (65001), win (1251) & old (866)" -ForegroundColor Red
+	chcp $EncodeName *> $null
+
+	if (-not $LASTEXITCODE -eq 0) {
+		Write-Host "Неизвестная кодировка $EncodeName, $avaiableCodeSheetsMSG" -ForegroundColor Red
+		Write-Host ""
+		exit $LASTEXITCODE
+	}
+
+	Write-Host "Установлена кодировка $EncodeName" -ForegroundColor Green
+	Write-Host ""
 }
