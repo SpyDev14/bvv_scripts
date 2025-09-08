@@ -8,14 +8,9 @@ if ($env:VIRTUAL_ENV) {
 	exit 0
 }
 
-$venvBasePath = ".\.venv"
-$venvScriptPath = "\Scripts\Activate.ps1"
-$venvPath = $venvBasePath + $venvScriptPath
 
-$isPipenv = Test-Path "Pipfile" -PathType Leaf
-if ($isPipenv) {
-	$venvPath = $(pipenv --venv) + $venvScriptPath
-}
+$venvPath = ".\.venv\Scripts\Activate.ps1"
+
 
 if ($new) {
 	if (Test-Path $venvPath -PathType Leaf) {

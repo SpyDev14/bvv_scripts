@@ -3,19 +3,19 @@
 	Устанавливает зависимости из req.txt, если активирован venv и файл существует.
 #>
 
+# Проверяем, активирован ли venv
+$isVenvActive = $null -ne $env:VIRTUAL_ENV
+
+if (-not $isVenvActive)
+{
+	Write-Host "Виртуальное окружение Python не активировано.`n" -ForegroundColor Red
+	exit 1
+}
 function InstallByPipReq {
 	param (
 		[string]$targetFile
 	)
 
-	# Проверяем, активирован ли venv
-	$isVenvActive = $null -ne $env:VIRTUAL_ENV
-	
-	if (-not $isVenvActive)
-	{
-		Write-Host "Виртуальное окружение Python не активировано." -ForegroundColor Red
-		exit 1
-	}
 	
 	# Выполняем установку зависимостей
 	Write-Host "Установка зависимостей из $targetFile..." -ForegroundColor Green
@@ -24,8 +24,10 @@ function InstallByPipReq {
 
 function InstallByPipenv {
 	Write-Host "Установка зависимостей с помощью pipenv..." -ForegroundColor Green
+	Invoke-Expression "pipenv lock"
 	Invoke-Expression "pipenv install"
 }
+
 
 # Проверяем наличие файлов
 $reqFiles = @("Pipfile", "requirements.txt", "req.txt")
